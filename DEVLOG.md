@@ -13,3 +13,16 @@
 **What I learned:** Handling array state inside `localStorage` requires careful JSON parsing during the initial React state setup to avoid hydration mismatches.
 **Blockers / what I'm stuck on:** None. The UI is clean and functional.
 **Plan for tomorrow:** Build the core logic of the Audit Engine. This needs to be a pure function that evaluates the user's stack against the PRICING_DATA to find inefficiencies. Will also write the automated tests for this engine.
+
+
+
+
+
+
+
+## Day 3 — 2026-05-09
+**Hours worked:** 2.0
+**What I did:** Built the core financial logic for the application in `engine.js`. The engine evaluates seat minimums, use-case mismatches, and surfaces Credex arbitrage opportunities. Installed Vitest and wrote 5 automated tests to verify the engine's mathematical accuracy. Documented the testing suite in `TESTS.md`.
+**What I learned:** Writing the pure function separately from the React components made testing incredibly fast. No UI mocking required, just pure data in, data out.
+**Blockers / what I'm stuck on:** None. Tests are passing green.
+**Plan for tomorrow:** Connect the Audit Engine to the React UI so users can view their savings. Implement the AI integration step by calling the Anthropic API to generate a personalized summary of the audit results.
