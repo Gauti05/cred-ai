@@ -36,3 +36,21 @@
 **What I learned:** Handling AI fallbacks is essential. When the API key isn't present or the service is down, the user should never see a spinning loader forever; providing a smart templated fallback keeps the funnel alive.
 **Blockers / what I'm stuck on:** Need to ensure MongoDB Atlas is configured properly for deployment, but local testing is working fine.
 **Plan for tomorrow:** Build the final Results Page UI in React. Connect the frontend form to these new backend endpoints. Ensure the "Credex Consultation" CTA conditionally renders only for users with >$500 in savings, per the rubric.
+
+
+
+## Day 5 — 2026-05-11
+**Hours worked:** 3.5
+**What I did:** Built the Results UI view and wired up the local `engine.js` outputs to the React state. Integrated the `/api/summary` and `/api/leads` backend endpoints so the frontend dynamically fetches the Anthropic AI summary and captures emails. Implemented the conditional Credex consultation CTA for audits >$500 in savings. Added Open Graph tags to `index.html` and implemented a stateless URL sharing mechanism using Base64 encoding. Conducted my user interviews and documented them.
+**What I learned:** Sharing state across a URL without a database requires encoding JSON into Base64 (`btoa`/`atob`). It's a great lightweight way to create a viral loop without burning database reads, perfect for an MVP.
+**Blockers / what I'm stuck on:** Deployment on Vercel might require tweaking the Vite proxy settings so the frontend can hit the deployed Express API, but local dev is complete.
+**Plan for tomorrow:** Write the core entrepreneurial documents (`GTM.md`, `ECONOMICS.md`, `LANDING_COPY.md`, `METRICS.md`) and run accessibility/Lighthouse audits on the UI to hit the 90+ score requirement.
+
+
+
+## Day 6 — [Insert Today's Date]
+**Hours worked:** 2.5
+**What I did:** Wrote the core entrepreneurial documents. Drafted the Go-To-Market strategy focusing on fractional CFO partnerships. Modeled the unit economics showing the funnel required to hit $1M ARR. Wrote the landing page copy and defined the North Star metric (Total Validated Savings Discovered). 
+**What I learned:** The bottleneck for this tool isn't technical, it's distribution. Relying on organic Hacker News traffic won't sustain a business model; B2B partnerships are mandatory.
+**Blockers:** None.
+**Plan for tomorrow:** Finalize REFLECTION.md, run the Lighthouse accessibility audit, update README, and submit the deployed URL.
