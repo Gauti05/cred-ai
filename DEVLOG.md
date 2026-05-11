@@ -26,3 +26,13 @@
 **What I learned:** Writing the pure function separately from the React components made testing incredibly fast. No UI mocking required, just pure data in, data out.
 **Blockers / what I'm stuck on:** None. Tests are passing green.
 **Plan for tomorrow:** Connect the Audit Engine to the React UI so users can view their savings. Implement the AI integration step by calling the Anthropic API to generate a personalized summary of the audit results.
+
+
+
+
+## Day 4 — 2026-05-10
+**Hours worked:** 3.0
+**What I did:** Built the Node/Express backend. Implemented the `/api/summary` endpoint using the Anthropic SDK to generate personalized audit summaries, including a strict `try/catch` fallback block for graceful degradation if the API fails. Implemented the `/api/leads` endpoint using Mongoose for MongoDB storage and Resend for transactional emails. Added `express-rate-limit` as basic abuse protection (documented). Wrote out `PROMPTS.md`.
+**What I learned:** Handling AI fallbacks is essential. When the API key isn't present or the service is down, the user should never see a spinning loader forever; providing a smart templated fallback keeps the funnel alive.
+**Blockers / what I'm stuck on:** Need to ensure MongoDB Atlas is configured properly for deployment, but local testing is working fine.
+**Plan for tomorrow:** Build the final Results Page UI in React. Connect the frontend form to these new backend endpoints. Ensure the "Credex Consultation" CTA conditionally renders only for users with >$500 in savings, per the rubric.
