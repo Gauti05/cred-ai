@@ -17,24 +17,24 @@ function App() {
   const [currentSpend, setCurrentSpend] = useState(0);
   const [currentSeats, setCurrentSeats] = useState(1);
 
-  // Results State
+
   const [auditResult, setAuditResult] = useState(null);
   const [aiSummary, setAiSummary] = useState('');
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   
-  // Lead Capture State
+ 
   const [email, setEmail] = useState('');
   const [leadCaptured, setLeadCaptured] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
 
-  // Persist form state
+  
   useEffect(() => {
     localStorage.setItem('teamSize', teamSize);
     localStorage.setItem('useCase', useCase);
     localStorage.setItem('aiTools', JSON.stringify(tools));
   }, [teamSize, useCase, tools]);
 
-  // Check for shared URL data on load
+  
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sharedData = params.get('data');
@@ -59,11 +59,11 @@ function App() {
   const removeTool = (id) => setTools(tools.filter(t => t.id !== id));
 
   const generateReport = async () => {
-    // 1. Run local math engine
+   
     const result = runAudit(tools, teamSize, useCase);
     setAuditResult(result);
 
-    // 2. Fetch AI Summary from Backend
+   
     setIsLoadingSummary(true);
     try {
       const res = await fetch('http://localhost:3000/api/summary', {
@@ -78,7 +78,7 @@ function App() {
     }
     setIsLoadingSummary(false);
 
-    // 3. Generate Shareable URL (stripping PII by encoding just the results)
+   
     const publicData = btoa(JSON.stringify({ auditResult: result, aiSummary: "A startup recently found savings on their AI stack." }));
     setShareUrl(`${window.location.origin}?data=${publicData}`);
   };
@@ -99,13 +99,13 @@ function App() {
     }
   };
 
-  // --- RESULTS UI ---
+  
   if (auditResult) {
     return (
       <div className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-4xl mx-auto space-y-8">
           
-          {/* Hero Section */}
+     
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">Audit Complete</h1>
             <p className="text-gray-500 mb-6">Here is your optimization blueprint.</p>
@@ -121,7 +121,6 @@ function App() {
             </div>
           </div>
 
-          {/* AI Summary */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <h2 className="text-xl font-bold mb-4">Executive Summary</h2>
             {isLoadingSummary ? (
@@ -150,7 +149,7 @@ function App() {
             </div>
           </div>
 
-          {/* Lead Capture / Viral Loop */}
+        
           {!leadCaptured ? (
             <div className="bg-gray-900 text-white p-8 rounded-xl shadow-xl">
               <div className="max-w-2xl mx-auto text-center">
@@ -161,7 +160,7 @@ function App() {
                   <button type="submit" className="bg-blue-600 px-6 py-3 rounded font-bold hover:bg-blue-500">Send Report</button>
                 </form>
                 
-                {/* CONDITIONAL CREDEX CTA */}
+              
                 {auditResult.totalMonthlySavings > 500 && (
                   <div className="mt-8 p-4 bg-green-900/30 border border-green-500 rounded-lg">
                     <h3 className="font-bold text-green-400 mb-2">High Savings Detected!</h3>
@@ -190,15 +189,14 @@ function App() {
     );
   }
 
-  // --- ORIGINAL FORM UI GOES HERE (Keep your existing return statement from Day 2 here for the form) ---
+  
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      {/* ... (Paste the form JSX from Day 2 here, but change the 'Generate Audit Report' button onClick to {generateReport}) ... */}
+    
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-100">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Spend Audit</h1>
         <p className="text-gray-500 mb-8">Discover if you are overpaying for your AI infrastructure.</p>
 
-        {/* Global Settings */}
         <div className="grid grid-cols-2 gap-6 mb-8 p-6 bg-gray-50 rounded-lg">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Total Team Size</label>
@@ -212,7 +210,7 @@ function App() {
           </div>
         </div>
 
-        {/* Add Tool Form */}
+       
         <form onSubmit={handleAddTool} className="flex gap-4 items-end mb-8 border-b pb-8">
           <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">Tool</label>
@@ -237,7 +235,7 @@ function App() {
           </button>
         </form>
 
-        {/* Tools List */}
+       
         <div>
           <h2 className="text-xl font-semibold mb-4">Your Stack</h2>
           {tools.length === 0 ? (

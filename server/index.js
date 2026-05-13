@@ -12,18 +12,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Abuse Protection: Rate Limiting
+
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // Limit each IP to 10 requests per window
+  windowMs: 15 * 60 * 1000, 
+  max: 10, 
   message: { error: 'Too many requests from this IP, please try again later.' }
 });
 
-// Setup APIs
+
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Database Schema (MongoDB)
 const leadSchema = new mongoose.Schema({
   email: { type: String, required: true },
   companyName: String,
@@ -34,7 +33,7 @@ const leadSchema = new mongoose.Schema({
 });
 const Lead = mongoose.model('Lead', leadSchema);
 
-// --- ENDPOINT 1: AI Summary Generation ---
+
 app.post('/api/summary', limiter, async (req, res) => {
   const { tools, totalSavings, useCase } = req.body;
   
@@ -53,30 +52,30 @@ app.post('/api/summary', limiter, async (req, res) => {
     res.json({ summary: msg.content[0].text });
   } catch (error) {
     console.error("AI API Failed, using fallback:", error.message);
-    // Graceful Fallback (Required by Rubric)
+    
     res.json({ 
       summary: `Based on your stack profile (${useCase}), we identified $${totalSavings} in optimization opportunities. Your current tool mix has overlapping capabilities or inefficient seat allocations. By consolidating vendors and utilizing corporate credits, you can significantly reduce your runway burn without sacrificing capability.` 
     });
   }
 });
 
-// --- ENDPOINT 2: Lead Capture & Email ---
+
 app.post('/api/leads', limiter, async (req, res) => {
   const { email, companyName, role, teamSize, totalSavings } = req.body;
 
   try {
-    // 1. Save to Database
+    
     const newLead = new Lead({ email, companyName, role, teamSize, totalSavings });
     await newLead.save();
 
-    // 2. Send Transactional Email
+   
     let emailText = `Your AI Spend Audit is complete. You have $${totalSavings} in potential savings.`;
     if (totalSavings > 500) {
       emailText += ` Since your savings are substantial, a Credex representative will reach out shortly to help you secure these corporate credits.`;
     }
 
     await resend.emails.send({
-      from: 'Audit <onboarding@resend.dev>', // Resend test email
+      from: 'Audit <onboarding@resend.dev>',
       to: email,
       subject: 'Your AI Spend Audit Results',
       text: emailText
@@ -89,7 +88,6 @@ app.post('/api/leads', limiter, async (req, res) => {
   }
 });
 
-// Start Server & DB (Ensure you have a MongoDB connection string in your .env)
 const PORT = process.env.PORT || 3000;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/credex')
   .then(() => {
