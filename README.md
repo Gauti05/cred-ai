@@ -16,4 +16,5 @@
 5. **Vitest vs Full E2E:** Focused my testing entirely on the pure math engine (`engine.test.js`) rather than building brittle Cypress UI tests, as financial accuracy is the core product value.
 
 ## Links
-*   **Live App:**: 
+*   **Live App:**: 'https://cred-ai-gules.vercel.app/' 
+**Walkthrough Video:** 'https://youtu.be/RFQwbF2cvNc'
